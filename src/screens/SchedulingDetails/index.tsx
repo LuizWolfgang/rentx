@@ -44,10 +44,17 @@ import {
  RentalPriceTotal,
  } from './styles';
 import { Button } from '../../components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 export function SchedulingDetails(){
 
 const theme = useTheme();
+
+const navigation = useNavigation()
+
+function handleConfirmRental(){
+    navigation.navigate('SchedulingComplete');
+}
     
 return (
      <Container>
@@ -116,7 +123,7 @@ return (
         </Content>
 
         <Footer>
-                <Button title="Confirmar" color="#18b120"/>
+                <Button title="Alugar agora" color={theme.colors.success} onPress={handleConfirmRental}/>
             </Footer>
      </Container>
     )

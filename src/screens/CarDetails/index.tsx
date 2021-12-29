@@ -32,8 +32,18 @@ import {
  Footer
  } from './styles';
 import { Button } from '../../components/Button';
+import { useNavigation } from '@react-navigation/native';
+import { useTheme } from 'styled-components';
 
 export function CarDetails(){
+
+    const theme = useTheme()
+    
+    const navigation = useNavigation()
+
+    function handleConfirmRental(){
+       navigation.navigate('Scheduling');
+    }
 return (
      <Container>
          <Header>
@@ -71,7 +81,7 @@ return (
             </About>
 
             <Footer>
-                <Button title="Confirmar" color="#18b120"/>
+                <Button title="Escolher periodo do aluguel" color={theme.colors.success} onPress={handleConfirmRental}/>
             </Footer>
 
         </Content>
