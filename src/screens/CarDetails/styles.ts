@@ -78,7 +78,7 @@ export const About = styled.Text`
   line-height: ${RFValue(25)}px;
   margin-top: 23px;
 `
-export const Acessories = styled.View`
+export const Accessories = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
