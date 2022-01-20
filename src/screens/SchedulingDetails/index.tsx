@@ -1,22 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
+
 import { Accessory } from '../../components/Acessory';
 import {Feather} from '@expo/vector-icons'
 import { RFValue } from 'react-native-responsive-fontsize';
+
 import { useTheme } from 'styled-components';
+import { getAccessoryIcon } from '../../utils/getAccessoryicon'
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-
-import speedSvg from '../../assets/speed.svg';
-import accelerationSvg from '../../assets/acceleration.svg';
-import forceSvg from '../../assets/force.svg';
-import gasolineSvg from '../../assets/gasoline.svg';
-import energySvg from '../../assets/energy.svg';
-import hybridSvg from '../../assets/hybrid.svg';
-import exchangeSvg from '../../assets/exchange.svg';
-import peopleSvg from '../../assets/people.svg';
-import carSvg from '../../assets/car.svg';
-
+import { CarDTO } from '../../dtos/CarDTO';
+import { Button } from '../../components/Button';
+import { format } from 'date-fns';
+import { getPlatformDate } from '../../utils/getPlatformDate';
+import { api } from '../../services/api';
+import { Alert } from 'react-native';
 
 import {
  Container,
@@ -30,7 +29,7 @@ import {
  Rent,
  Period,
  Price,
- Acessories,
+ Accessories,
  Footer,
  RentalPeriod,
  CalendarIcon,
@@ -43,48 +42,100 @@ import {
  RentalPriceQuota,
  RentalPriceTotal,
  } from './styles';
-import { Button } from '../../components/Button';
-import { useNavigation } from '@react-navigation/native';
+
+
+interface Params {
+    car: CarDTO;
+    dates: string[];
+}
+
+interface RentalPeriod {
+    start: string;
+    end: string;
+}
 
 export function SchedulingDetails(){
-
+    
+const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod);
 const theme = useTheme();
-
 const navigation = useNavigation()
 
-function handleConfirmRental(){
-    navigation.navigate('SchedulingComplete');
+const route = useRoute()
+const {car, dates} = route.params as Params;
+
+//total price
+const rentTotal = Number(dates.length * car.rent.price);
+
+async function handleConfirmRental(){
+    const schedulysByCar = await api.get(`/schedules_bycars/${car.id}`) //agendamentos pelo id do carro
+
+    //pegando as datas que ja estavam agendadas na api + os dates da tela anterior
+    const unavailable_dates = [
+        ...schedulysByCar.data.unavailable_dates,
+        ...dates
+    ];
+
+    // const oi = [
+    //     schedulysByCar.data.unavailable_dates,
+    //     dates
+    // ];
+
+    // console.log('com o spred', unavailable_dates)
+    // console.log('sem o spred', oi)
+
+    api.put(`/schedules_bycars/${car.id}`, { //editando o car pelo id do carro = car.id
+        id: car.id,
+        unavailable_dates
+    })
+    .then(() => {
+        navigation.navigate('SchedulingComplete');
+    })
+    .catch(() => Alert.alert('Não foi possivel confirmar o agendamento'))
 }
-    
+
+function goBack(){
+    navigation.goBack()
+}
+
+useEffect(() => { //Toda vez que mostrar a tela
+    setRentalPeriod({ 
+        start: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+        end: format(getPlatformDate(new Date(dates[dates.length -1])), 'dd/MM/yyyy'), // dates.length -1 pegando a ultima posicao do array
+    })
+}, [])
+
+ 
 return (
      <Container>
          <Header>
-             <BackButton onPress={() => console.log('oi')}/>
+             <BackButton onPress={goBack}/>
          </Header>
         <CarImages>
-            <ImageSlider imagesUrl={['https://www.pngmart.com/files/1/Audi-RS5-Red-PNG.png']}/>
+            <ImageSlider imagesUrl={car.photos}/>
         </CarImages>
 
         <Content>
             <Details>
                 <Description>
-                    <Brand>Lamboguini</Brand>
-                    <Name>Huracan</Name>
+                    <Brand>{car.brand}</Brand>
+                    <Name>{car.name}</Name>
                 </Description>
             <Rent>
-                <Period>Ao dia</Period>
-                <Price>R$ 580</Price>
+                <Period>{car.rent.period}</Period>
+                <Price>{car.rent.price}</Price>
             </Rent>    
             </Details>
 
-            <Acessories>
-               <Accessory name="380Km/h" icon={speedSvg} />
-               <Accessory name="3.2.s" icon={accelerationSvg} />
-               <Accessory name="800 HP" icon={forceSvg} />
-               <Accessory name="Gasolina" icon={gasolineSvg} />
-               <Accessory name="Auto" icon={energySvg} />
-               <Accessory name="2 pessoas" icon={peopleSvg} />
-            </Acessories>
+            <Accessories>
+                {
+                    car.accessories.map(accessories => {
+                        <Accessory
+                         key={accessories.type}
+                         name={accessories.name}
+                         icon={getAccessoryIcon(accessories.type)} />
+                    })
+                }
+            </Accessories>
 
             <RentalPeriod>
                 <CalendarIcon>
@@ -97,7 +148,7 @@ return (
 
                 <DateInfo>
                     <DateTitle>DE</DateTitle>
-                    <DateValue>18/06/2021</DateValue>
+                    <DateValue>{rentalPeriod.start}</DateValue>
                 </DateInfo>
 
                 <Feather
@@ -107,8 +158,8 @@ return (
                 />
 
                 <DateInfo>
-                    <DateTitle>DE</DateTitle>
-                    <DateValue>18/06/2021</DateValue>
+                    <DateTitle>ATÉ</DateTitle>
+                    <DateValue>{rentalPeriod.end}</DateValue>
                 </DateInfo>
 
             </RentalPeriod>
@@ -116,8 +167,8 @@ return (
             <RentalPrice>
                 <RentalPriceLabel>TOTAL</RentalPriceLabel>
                 <RentalPriceDetails>
-                    <RentalPriceQuota>R$ 580 x3 diárias</RentalPriceQuota>
-                    <RentalPriceTotal>R$ 2.900</RentalPriceTotal>
+                    <RentalPriceQuota>{`R$ ${car.rent.price} x${dates.length} diárias`}</RentalPriceQuota>
+                    <RentalPriceTotal>R$ {rentTotal}</RentalPriceTotal>
                 </RentalPriceDetails>
             </RentalPrice>
         </Content>
