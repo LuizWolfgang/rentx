@@ -57,6 +57,7 @@ interface RentalPeriod {
 export function SchedulingDetails(){
     
 const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>({} as RentalPeriod);
+const [loading, setLoading] = useState(false)
 const theme = useTheme();
 const navigation = useNavigation()
 
@@ -67,6 +68,9 @@ const {car, dates} = route.params as Params;
 const rentTotal = Number(dates.length * car.rent.price);
 
 async function handleConfirmRental(){
+
+    setLoading(true)
+    
     const schedulysByCar = await api.get(`/schedules_bycars/${car.id}`) //agendamentos pelo id do carro
 
     //pegando as datas que ja estavam agendadas na api + os dates da tela anterior
@@ -75,13 +79,13 @@ async function handleConfirmRental(){
         ...dates
     ];
 
-    // const oi = [
-    //     schedulysByCar.data.unavailable_dates,
-    //     dates
-    // ];
+    await api.post('schedules_byuser', {
+        user_id:1,
+        car,
+        startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+        endDate: format(getPlatformDate(new Date(dates[dates.length -1])), 'dd/MM/yyyy'),
 
-    // console.log('com o spred', unavailable_dates)
-    // console.log('sem o spred', oi)
+    })
 
     api.put(`/schedules_bycars/${car.id}`, { //editando o car pelo id do carro = car.id
         id: car.id,
@@ -90,7 +94,10 @@ async function handleConfirmRental(){
     .then(() => {
         navigation.navigate('SchedulingComplete');
     })
-    .catch(() => Alert.alert('Não foi possivel confirmar o agendamento'))
+    .catch(() => {
+        setLoading(false)
+        Alert.alert('Não foi possivel confirmar o agendamento')
+    })
 }
 
 function goBack(){
@@ -174,8 +181,13 @@ return (
         </Content>
 
         <Footer>
-                <Button title="Alugar agora" color={theme.colors.success} onPress={handleConfirmRental}/>
-            </Footer>
+                <Button title="Alugar agora"
+                 color={theme.colors.success} 
+                 enabled={!loading}
+                 loading={loading}
+                 onPress={handleConfirmRental}
+                 />
+        </Footer>
      </Container>
     )
 }
