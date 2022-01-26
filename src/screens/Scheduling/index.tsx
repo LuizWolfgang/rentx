@@ -27,7 +27,7 @@ import {
  Fotter
  } from './styles';
 
-import { Alert, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useState } from 'react';
 
@@ -53,14 +53,10 @@ const route = useRoute()
 const {car} = route.params as Params;
 
     function handleConfirmRental(){
-        if(!rentalPeriod.startFormatted || !rentalPeriod.endFormatted){
-            Alert.alert('Selecione o intervalo para alugar')
-        }else{
-            navigation.navigate('SchedulingDetails', {
-                car,
-                dates: Object.keys(markedDates)
-            });
-        }
+        navigation.navigate('SchedulingDetails', {
+            car,
+            dates: Object.keys(markedDates)
+        });
     }
 
     function goBack(){
@@ -84,8 +80,8 @@ const {car} = route.params as Params;
 
         setMarkedDates(interval)
 
-
         const firstDate = Object.keys(interval)[0];
+
         const endDate = Object.keys(interval)[Object.keys(interval).length - 1];
 
         setRentalPeriod({ 
@@ -132,7 +128,11 @@ return (
          </Content>
 
          <Fotter>
-            <Button title="Confirmar" onPress={handleConfirmRental}/>
+            <Button 
+                 title="Confirmar"
+                 onPress={handleConfirmRental}
+                 enabled={!!rentalPeriod.startFormatted}
+                 />
          </Fotter>
      </Container>
     );
