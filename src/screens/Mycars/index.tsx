@@ -10,6 +10,8 @@ import { api } from '../../services/api';
 import { AntDesign } from '@expo/vector-icons'
 import { Load } from '../../components/Load'
 
+import {LoadAnimation} from '../../components/LoadAnimation';
+
 import {
     Container,
     Header,
@@ -62,8 +64,6 @@ export function MyCars(){
     },[])
 
     const totalCars = cars.length
-
-    console.log(totalCars)
     
 return (
      <Container>
@@ -84,7 +84,7 @@ return (
                 Conforto, segurança e praticidade
              </SubTitle>
          </Header>
-        { loading ? <Load/> :
+        { loading ? <LoadAnimation/> :
         <Content>
              <Appointments>
                 <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
