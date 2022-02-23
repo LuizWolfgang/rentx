@@ -64,7 +64,6 @@ const {car} = route.params as Params;
     }
 
     function handleChangeDate(date:DayProps){
-
         console.log('date',date)
         //evitar o problema de data invalida, menor data e a primeiro e a maior é a ultima
         let start = !lastSelectedDate.timestamp ? date : lastSelectedDate;
@@ -81,6 +80,8 @@ const {car} = route.params as Params;
         setMarkedDates(interval)
 
         const firstDate = Object.keys(interval)[0];
+
+        console.log('firstDate',firstDate)
 
         const endDate = Object.keys(interval)[Object.keys(interval).length - 1];
 
