@@ -92,10 +92,8 @@ return (
             barStyle="dark-content"
             translucent
             backgroundColor="transparent"      
-            
         />
 
-        
          <Animated.View
         style={[
             headerStyleAnimation, 
