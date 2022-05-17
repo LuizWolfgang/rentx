@@ -13,12 +13,11 @@ export const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
+  z-index: 1;
   position: absolute;
   margin-top: ${getStatusBarHeight() + 20}px;
   margin-left: 24px;
 
-  background-color: ${({ theme }) => theme.colors.main};
 `
 export const CarImages = styled.View`
  margin-top: ${getStatusBarHeight() + 32}px;

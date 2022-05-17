@@ -92,7 +92,11 @@ async function handleConfirmRental(){
         unavailable_dates
     })
     .then(() => {
-        navigation.navigate('SchedulingComplete');
+        navigation.navigate('Confirmation', { 
+            nextScreenRoutes: 'Home',
+            title: 'Carro alugado!',
+            message: `Agora você so precisa ir\naté a concessionária da RENTX\npegar seu automóvel`
+        });
     })
     .catch(() => {
         setLoading(false)
