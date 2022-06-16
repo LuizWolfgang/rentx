@@ -7,7 +7,8 @@ import {
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
     Keyboard,
-    Alert
+    Alert,
+    Platform
 } from 'react-native';
 
 import * as Yup from 'yup'
@@ -23,6 +24,7 @@ import {
  Form,
  Footer
  } from './styles';
+import { useAuth } from '../../hooks/auth';
 
 
 export function SignIn(){
@@ -31,6 +33,7 @@ const[ email, setEmail] = useState('')
 const[ password, setPassword ] = useState('')
 
 const navigation = useNavigation()
+const { signIn } = useAuth();
 
 async function handleSignIn(){
     try {
@@ -42,7 +45,9 @@ async function handleSignIn(){
         .required('A senha é obrigatória')
     });
 
-    await schema.validate({ email, password})      
+    await schema.validate({ email, password})    
+    
+    signIn({ email, password });
     } catch (error) {
         if(error instanceof Yup.ValidationError){
            Alert.alert('Opa', error.message)
