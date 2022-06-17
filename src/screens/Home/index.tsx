@@ -92,17 +92,25 @@ export function Home(){
 }
 
  useEffect(() => {
+     let isMounted = true; //warning can't perform a React state update
     async function fetchCars(){
         try {
-            const response = await api.get('/cars')
-            setCars(response.data)
+            if(isMounted){
+                 const response = await api.get('/cars')
+                 setCars(response.data)  
+            }
         } catch (error) {
             console.error('Requisicao da listagem dos carros', error)
         }finally{
-            setLoading(false);
+            if(isMounted){
+                setLoading(false);
+            }
         }
     }
     fetchCars()
+    return () => {
+        isMounted = false
+    }
  },[])
 
  useEffect(() => {

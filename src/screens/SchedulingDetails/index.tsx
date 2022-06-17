@@ -65,7 +65,7 @@ const route = useRoute()
 const {car, dates} = route.params as Params;
 
 //total price
-const rentTotal = Number(dates.length * car.rent.price);
+const rentTotal = Number(dates.length * car.price);
 
 async function handleConfirmRental(){
 
@@ -132,8 +132,8 @@ return (
                     <Name>{car.name}</Name>
                 </Description>
             <Rent>
-                <Period>{car.rent.period}</Period>
-                <Price>{car.rent.price}</Price>
+                <Period>{car.period}</Period>
+                <Price>{car.price}</Price>
             </Rent>    
             </Details>
 
@@ -178,7 +178,7 @@ return (
             <RentalPrice>
                 <RentalPriceLabel>TOTAL</RentalPriceLabel>
                 <RentalPriceDetails>
-                    <RentalPriceQuota>{`R$ ${car.rent.price} x${dates.length} diárias`}</RentalPriceQuota>
+                    <RentalPriceQuota>{`R$ ${car.price} x${dates.length} diárias`}</RentalPriceQuota>
                     <RentalPriceTotal>R$ {rentTotal}</RentalPriceTotal>
                 </RentalPriceDetails>
             </RentalPrice>
