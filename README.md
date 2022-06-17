@@ -54,6 +54,7 @@ Yarn run android ou yarn run iOS
 ## ⛏️ Ferramentas usadas <a name = "built_using"></a>
 
 - [React Native](https://reactnative.dev/) - Mobile Framework
+-[WatermelonDB](https://nozbe.github.io/WatermelonDB/Installation.html)- Banco de dados offline
 - [Styled-Components](https://styled-components.com/) - CSS in JS
 - [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/) - Util Buttons Platform
 - [React Navigation](https://reactnavigation.org/) - Control navigation app
@@ -61,7 +62,7 @@ Yarn run android ou yarn run iOS
 - [Yup](https://github.com/jquense/yup) - Control validations forms app
 - [Typescript](https://www.typescriptlang.org/) - Superset Javascript
 - [Expo](https://expo.io/) - Development
--[WatermelonDB](https://nozbe.github.io/WatermelonDB/Installation.html)- Banco de dados offline
+
 
 
 ## ⛏️ Conhecimentos adquiridos </a>
@@ -73,4 +74,5 @@ Yarn run android ou yarn run iOS
 - Conhecimento maior de álbum de fotos
 - Conhecimento maior de animações
 - Conhecimento maior de autenticação do usuário
+- - Conhecimento maior de splash screen
 
