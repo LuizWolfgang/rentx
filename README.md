@@ -37,7 +37,7 @@ Clone esse repositório
 Entre na pasta do projeto
 
 ```
-cd rents
+cd rentx
 ```
 Instale as dependências necessárias
 
@@ -62,6 +62,9 @@ Yarn run android ou yarn run iOS
 - [Typescript](https://www.typescriptlang.org/) - Superset Javascript
 - [Expo](https://expo.io/) - Development
 -[WatermelonDB](https://nozbe.github.io/WatermelonDB/Installation.html)- Banco de dados offline
+
+
+## ⛏️ Conhecimentos adquiridos </a>
 
 - Conhecimento maior de Banco de dados offline
 - Conhecimento maior de React Native CLI
