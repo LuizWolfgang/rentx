@@ -7,8 +7,8 @@ import React, {
   } from 'react';
   
   import { api } from '../services/api';
-//   import { database } from '../database';
-//   import { User as ModelUser } from '../database/model/User';
+  import { database } from '../database';
+  import { User as ModelUser } from '../database/model/User';
   
   interface User {
     id: string;
@@ -47,10 +47,21 @@ import React, {
           email,
           password
         });
-        
-        console.log(response.data)
+ 
         const { token, user } = response.data;
         api.defaults.headers.authorization = `Bearer ${token}`;
+
+        const userCollection = database.get<ModelUser>('users');
+        await database.write(async () => {
+          await userCollection.create(( newUser ) => {
+            newUser.user_id = user.id,
+            newUser.name = user.name,
+            newUser.email = user.email,
+            newUser.driver_license = user.driver_license,
+            newUser.avatar = user.avatar,
+            newUser.token = token
+          })
+        });
 
         setData({ ...user, token });
   
@@ -92,20 +103,20 @@ import React, {
     //   }
     // }
   
-    // useEffect(() => {
-    //   async function loadUserData() {
-    //     const userCollection = database.get<ModelUser>('users');
-    //     const response = await userCollection.query().fetch();
-       
-    //     if(response.length > 0){
-    //       const userData = response[0]._raw as unknown as User;
-    //       api.defaults.headers.authorization = `Bearer ${userData.token}`;
-    //       setData(userData);
-    //     }
-    //   }
-  
-    //   loadUserData();
-    // },[])
+    useEffect(() => {
+      async function loadUserData() {
+        const userCollection = database.get<ModelUser>('users');
+        const response = await userCollection.query().fetch();
+        console.log('USUARIO LOGADO')
+        console.log(response)
+        if(response.length > 0){ //se houver usuario, quando recarregar o app ja logar e nao voltar pra tela de login
+          const userData = response[0]._raw as unknown as User;
+          api.defaults.headers.authorization = `Bearer ${userData.token}`;
+          setData(userData);
+        }
+      }
+      loadUserData();
+    },[])
   
     return (
       <AuthContext.Provider 

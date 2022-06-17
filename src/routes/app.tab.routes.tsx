@@ -10,7 +10,7 @@ import ProfileSvg from '../assets/people.svg';
 import { AppStackRoutes } from './app.stack.routes';
 import { Home } from '../screens/Home';
 import { MyCars } from '../screens/Mycars';
-//import { Profile } from '../screens/Profile';
+import { Profile } from '../screens/Profile';
 
 import { useTheme } from 'styled-components'
 
@@ -49,7 +49,7 @@ export function AppTabRoutes(){
                     )
                 }}
             />
-            <Screen name="Profile" component={Home}
+            <Screen name="Profile" component={Profile}
                 options={{
                     tabBarIcon: ({ focused, color }) => (
                         <ProfileSvg width={24} height={24} fill={color} />
