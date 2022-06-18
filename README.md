@@ -6,7 +6,8 @@
 ![Screen Shot 2022-06-17 at 17 24 18](https://user-images.githubusercontent.com/74063154/174397657-284c64b9-bb18-435e-aed8-c1671d320cf2.png)
 ![Screen Shot 2022-06-17 at 17 24 34](https://user-images.githubusercontent.com/74063154/174397661-90dcb0f3-f1dd-46c8-96aa-c643add41ae4.png)
 ![Screen Shot 2022-06-17 at 17 24 41](https://user-images.githubusercontent.com/74063154/174397665-11fbe9fb-e17f-40ab-8877-2dd027696b38.png)
-![Screen Shot 2022-06-17 at 17 33 40](https://user-images.githubusercontent.com/74063154/174397671-323446d7-dcff-450d-98cd-f6dc8e8132b8.png)
+![Screen Shot 2022-06-18 at 14 49 02](https://user-images.githubusercontent.com/74063154/174450593-f9c01426-07af-4efa-8cd8-9bcc8a127870.png)
+
 
 <h3 align="center">RENTX</h3>
 --- 
