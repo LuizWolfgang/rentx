@@ -26,9 +26,6 @@ export function AuthRoutes(){
             <Stack.Screen name="SignUpFirstStep" component={SignUpFirstStep} />
             <Stack.Screen name="SignUpSecondStep" component={SignUpSecondStep} />
             <Stack.Screen name="Confirmation" component={Confirmation} />
-
         </Stack.Navigator>
-
-        
     )
 }

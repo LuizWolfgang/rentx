@@ -29,7 +29,7 @@ import React, {
     user: User;
     signIn: (credentials: SignInCredentials) => Promise<void>;
     signOut: () => Promise<void>;
-    //updatedUser: (user: User) => Promise<void>;
+    updatedUser: (user: User) => Promise<void>;
   }
   
   interface AuthProviderProps {
@@ -72,43 +72,38 @@ import React, {
   
     async function signOut() {
       try {
-        // const userCollection = database.get<ModelUser>('users');
-        // await database.action(async () => {
-        //   const userSelected = await userCollection.find(data.id);
-        //   await userSelected.destroyPermanently();
-        // });
-  
+        const userCollection = database.get<ModelUser>('users');
+        await database.write(async () => {
+          const userSelected = await userCollection.find(data.id);
+          await userSelected.destroyPermanently();
+        });
         setData({} as User);
       } catch (error) {
         throw new Error(error);
       }
     }
   
-    // async function updatedUser(user: User) {
-    //   try {
-    //     const userCollection = database.get<ModelUser>('users');
-    //     await database.action(async () => {
-    //       const userSelected = await userCollection.find(user.id);
-    //       await userSelected.update(( userData ) => {
-    //         userData.name = user.name,
-    //         userData.driver_license = user.driver_license,
-    //         userData.avatar = user.avatar
-    //       });
-    //     });
-  
-    //     setData(user);
-        
-    //   } catch (error) {      
-    //     throw new Error(error);
-    //   }
-    // }
+    async function updatedUser(user: User) {
+      try {
+        const userCollection = database.get<ModelUser>('users'); //busquei os dados
+        await database.write(async () => { //inicie a acao no banco "write"
+          const userSelected = await userCollection.find(user.id);//busquei pelo id
+          await userSelected.update(( userData ) => {//realizei o update
+            userData.name = user.name,
+            userData.driver_license = user.driver_license,
+            userData.avatar = user.avatar
+          });
+        });
+        setData(user);
+      } catch (error) {      
+        throw new Error(error);
+      }
+    }
   
     useEffect(() => {
       async function loadUserData() {
         const userCollection = database.get<ModelUser>('users');
         const response = await userCollection.query().fetch();
-        console.log('USUARIO LOGADO')
-        console.log(response)
         if(response.length > 0){ //se houver usuario, quando recarregar o app ja logar e nao voltar pra tela de login
           const userData = response[0]._raw as unknown as User;
           api.defaults.headers.authorization = `Bearer ${userData.token}`;
@@ -124,6 +119,7 @@ import React, {
           user: data,
           signIn,
           signOut,
+          updatedUser
         }}
       >
         {children}
