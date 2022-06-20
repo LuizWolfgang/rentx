@@ -26,6 +26,8 @@ export function Confirmation() {
     const route = useRoute();
     const { title, message, nextScreenRoutes } = route.params as Params
 
+    console.log('CONFIRMATION')
+
 function handleConfirm(){
     navigation.navigate(nextScreenRoutes);
 }

@@ -79,6 +79,8 @@ import React, {
         });
         setData({} as User);
       } catch (error) {
+        console.log(error);
+        setData({} as User);
         throw new Error(error);
       }
     }
