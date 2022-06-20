@@ -5,17 +5,13 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex:1;
   background-color: ${({ theme }) => theme.colors.header};
-
-  padding-top: 96px;
 `;
 
 export const Content = styled.View`
 
-  flex: 1;
   justify-content: center;
   align-items: center;
-
-  padding-bottom:80px;
+  padding-bottom:10px;
 
 `
 
@@ -24,7 +20,7 @@ export const Title = styled.Text`
   color: ${({ theme }) => theme.colors.shape};
   font-family: ${({ theme }) => theme.fonts.secondary_600};
 
-  margin-top:40px;
+  margin-top:20px;
 
 `
 export const Message = styled.Text`
@@ -41,7 +37,7 @@ export const Footer = styled.View`
   width: 100%;
   align-items: center;
   justify-content:center;
-  padding-bottom: ${getStatusBarHeight() + 30}px;
-  margin-bottom: ${getStatusBarHeight() + 30}px;
+  padding-bottom: ${getStatusBarHeight() + 10}px;
+  margin-bottom: ${getStatusBarHeight() + 10}px;
 
 `
